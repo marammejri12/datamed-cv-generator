@@ -25,9 +25,18 @@ class AICVParser:
 
         if self.api_key:
             genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('models/gemini-2.5-flash')  # Modèle mis à jour!
+            # Use Pro model for maximum accuracy and detail extraction
+            self.model = genai.GenerativeModel(
+                'models/gemini-2.5-flash',
+                generation_config={
+                    "temperature": 0.1,  # Very low for precision
+                    "top_p": 0.95,
+                    "top_k": 40,
+                    "max_output_tokens": 8192,  # Allow long responses
+                }
+            )
             self.ai_enabled = True
-            print("✅ Gemini AI activé - Extraction intelligente!")
+            print("✅ Gemini AI Pro activé - Extraction COMPLÈTE et PRÉCISE!")
         else:
             self.ai_enabled = False
             print("⚠️ Gemini API key not found. Using basic parsing.")
@@ -91,20 +100,33 @@ class AICVParser:
         Use Gemini AI to extract and classify CV data intelligently
         """
         prompt = f"""
-Tu es un expert en extraction de CVs. Ta mission: extraire **100% DU CONTENU** sans RIEN perdre.
+MISSION CRITIQUE: Tu es un EXPERT en extraction de CVs. Tu DOIS extraire **100% DU CONTENU**. Si tu manques UN SEUL élément, l'extraction échouera.
 
-RÈGLES CRITIQUES:
-1. Lis TOUT le CV mot par mot
-2. N'omets AUCUN détail - même le plus petit
-3. Extrais CHAQUE diplôme, CHAQUE certification, CHAQUE compétence, CHAQUE expérience
-4. Pour les expériences: extrais TOUTES les lignes de réalisations
-5. Liste TOUTES les technologies mentionnées
-6. CLASSIFIE intelligemment les compétences par catégories logiques
+⚠️ RÈGLES ABSOLUES - AUCUNE EXCEPTION:
+1. LIS le CV LIGNE PAR LIGNE, MOT PAR MOT - Ne saute RIEN
+2. COMPTE les éléments avant d'extraire (combien de diplômes? combien de compétences? combien d'expériences?)
+3. VÉRIFIE que tu as tout extrait en comptant à nouveau
+4. Pour les expériences: CHAQUE bullet point, CHAQUE phrase = une entrée séparée
+5. Pour les compétences: LISTE **TOUTES** les technologies, frameworks, outils mentionnés PARTOUT dans le CV
+6. CLASSIFIE intelligemment en créant des groupes logiques adaptés au profil
 
-CV COMPLET À ANALYSER:
+PRENDS TON TEMPS. C'EST CRITIQUE. NE TE PRÉCIPITE PAS.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CV COMPLET À ANALYSER (LIS TOUT):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 {text}
 
-Retourne un JSON avec cette structure EXACTE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AVANT de répondre:
+1. Compte combien de diplômes tu vois
+2. Compte combien de technologies/compétences différentes sont mentionnées
+3. Compte combien d'expériences professionnelles
+4. Liste TOUTES les certifications (AWS, Azure, Oracle, etc.)
+
+Retourne un JSON avec TOUTES ces informations:
 
 {{
     "diplomes": [
