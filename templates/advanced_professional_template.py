@@ -437,7 +437,6 @@ class AdvancedProfessionalTemplate:
                 ('RIGHTPADDING', (0, 0), (-1, -1), 15),
                 ('TOPPADDING', (0, 0), (-1, -1), 12),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
-                ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Allow content to flow
             ]))
             elements.append(content_box)
 
