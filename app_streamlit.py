@@ -186,8 +186,18 @@ if uploaded_file is not None:
                 os.unlink(result_path)
 
             except Exception as e:
-                st.error(f"❌ Erreur: {str(e)}")
-                st.info("Vérifiez que votre clé API Gemini est configurée dans config.py")
+                error_msg = str(e)
+                st.error(f"❌ Erreur lors de la génération: {error_msg}")
+
+                # Messages d'aide spécifiques
+                if "Flowable" in error_msg or "too large" in error_msg:
+                    st.warning("⚠️ Le CV contient trop de contenu pour le format PDF. Essayez:")
+                    st.info("✅ Exporter en format **Word** au lieu de PDF")
+                    st.info("✅ Ou réduire le contenu du CV avant de l'uploader")
+                elif "API" in error_msg or "key" in error_msg:
+                    st.info("🔑 Vérifiez que votre clé API Gemini est configurée dans config.py")
+                else:
+                    st.info("💡 Essayez d'utiliser le format Word ou un CV plus court")
 
 else:
     st.info("👆 Commencez par uploader un CV")
