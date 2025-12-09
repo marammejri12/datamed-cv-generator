@@ -89,7 +89,8 @@ with col1:
         ["DataMed - Bleu Marine", "FastorGie - Rouge"],
         index=0
     )
-    template_type = 'advanced' if 'DataMed' in template else 'fastorgie'
+    # Utiliser le bon template
+    template_type = 'datamed' if 'DataMed' in template else 'fastorgie'
 
 with col2:
     format_export = st.selectbox(

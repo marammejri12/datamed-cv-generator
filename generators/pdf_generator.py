@@ -2,6 +2,7 @@
 CV Generator - Orchestrates CV generation (PDF & WORD)
 """
 from templates.advanced_professional_template import AdvancedProfessionalTemplate
+from templates.datamed_template import DataMedTemplate
 from templates.fastorgie_template import FastorGieTemplate
 from generators.word_generator import WordGenerator
 from utils.anonymizer import Anonymizer
@@ -37,9 +38,11 @@ class CVGenerator:
             word_gen.generate_cv(anonymized_data, output_path)
         else:
             output_path = base_path + '.pdf'
-            # Generate PDF
+            # Generate PDF with appropriate template
             if template_type == 'fastorgie':
                 template = FastorGieTemplate(output_path)
+            elif template_type == 'datamed':
+                template = DataMedTemplate(output_path)
             else:  # advanced (default)
                 template = AdvancedProfessionalTemplate(output_path)
 

@@ -104,8 +104,12 @@ class DataMedTemplate:
         # Add Diplomes & Formations
         story.extend(self._create_diplomes_section(data.get('diplomes', [])))
 
-        # Add Competences Techniques
-        story.extend(self._create_competences_section(data.get('competences', {})))
+        # Add Certifications (if any)
+        if data.get('certifications'):
+            story.extend(self._create_certifications_section(data.get('certifications', [])))
+
+        # Add Competences Techniques (grouped by AI)
+        story.extend(self._create_competences_section(data.get('competences_groups', [])))
 
         # Add Languages
         story.extend(self._create_langues_section(data.get('langues', [])))
@@ -212,8 +216,53 @@ class DataMedTemplate:
         elements.append(Spacer(1, 0.5*cm))
         return elements
 
-    def _create_competences_section(self, competences: dict):
-        """Create technical skills section with table"""
+    def _create_certifications_section(self, certifications: list):
+        """Create certifications section with table"""
+        elements = []
+
+        # Section header
+        header = Paragraph("Certifications", self.section_style)
+        header_table = Table([[header]], colWidths=[17*cm])
+        header_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#808080')),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.white),
+            ('LEFTPADDING', (0, 0), (-1, -1), 6),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+            ('TOPPADDING', (0, 0), (-1, -1), 4),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ]))
+        elements.append(header_table)
+        elements.append(Spacer(1, 0.2*cm))
+
+        # Certifications table
+        table_data = []
+
+        for cert in certifications:
+            annee = Paragraph(f"<b>{cert.get('annee', '')}</b>", self.bold_style)
+            cert_text = Paragraph(
+                f"<b>{cert.get('nom', '')}</b><br/>"
+                f"<font size=8>{cert.get('organisme', '')}</font>",
+                self.normal_style
+            )
+            table_data.append([annee, cert_text])
+
+        if table_data:
+            cert_table = Table(table_data, colWidths=[2*cm, 15*cm])
+            cert_table.setStyle(TableStyle([
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                ('LEFTPADDING', (0, 0), (-1, -1), 6),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 8),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+            ]))
+            elements.append(cert_table)
+
+        elements.append(Spacer(1, 0.5*cm))
+        return elements
+
+    def _create_competences_section(self, competences_groups: list):
+        """Create technical skills section with AI-grouped competences"""
         elements = []
 
         # Section header
@@ -230,36 +279,19 @@ class DataMedTemplate:
         elements.append(header_table)
         elements.append(Spacer(1, 0.2*cm))
 
-        # Competences mapping
-        comp_mapping = [
-            ('Langages', 'langages'),
-            ('API/Normes', 'api_normes'),
-            ('Frameworks', 'frameworks'),
-            ('SGBDR', 'sgbdr'),
-            ('Modélisation', 'modelisation'),
-            ('IDE', 'ide'),
-            ("Serveurs d'applications", 'serveurs_applications'),
-            ('Serveurs Web', 'serveurs_web'),
-            ('Intégration continue', 'integration_continue'),
-            ('Gestion de versions', 'gestion_versions'),
-            ('Tests unitaires', 'tests_unitaires'),
-            ('Cloud', 'cloud'),
-            ('Systèmes', 'systemes'),
-            ('Méthode & Outils', 'methodes_outils'),
-        ]
-
+        # Build table from AI-grouped competences
         table_data = []
 
-        for label, key in comp_mapping:
-            skills = competences.get(key, [])
-            if skills:
-                skill_text = ', '.join(skills) if isinstance(skills, list) else skills
-            else:
-                skill_text = ''
+        for group in competences_groups:
+            categorie = group.get('categorie', '')
+            competences = group.get('competences', [])
 
-            label_para = Paragraph(f"<b>{label}</b>", self.bold_style)
-            skill_para = Paragraph(skill_text, self.normal_style)
-            table_data.append([label_para, skill_para])
+            if competences:
+                skill_text = ', '.join(competences) if isinstance(competences, list) else str(competences)
+
+                label_para = Paragraph(f"<b>{categorie}</b>", self.bold_style)
+                skill_para = Paragraph(skill_text, self.normal_style)
+                table_data.append([label_para, skill_para])
 
         if table_data:
             comp_table = Table(table_data, colWidths=[4.5*cm, 12.5*cm])
