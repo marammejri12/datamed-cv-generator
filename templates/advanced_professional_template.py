@@ -402,10 +402,8 @@ class AdvancedProfessionalTemplate:
                 content_elements.append(Spacer(1, 0.1*cm))
                 for projet in exp['projets']:
                     if projet.strip():
-                        # Limiter la longueur du texte pour éviter les débordements
-                        projet_text = projet[:500] + '...' if len(projet) > 500 else projet
                         content_elements.append(Paragraph(
-                            f'{projet_text}',
+                            f'{projet}',
                             self.normal_style
                         ))
                 content_elements.append(Spacer(1, 0.2*cm))
@@ -416,10 +414,8 @@ class AdvancedProfessionalTemplate:
                 content_elements.append(Spacer(1, 0.1*cm))
                 for real in exp['realisations']:
                     if real.strip():
-                        # Limiter la longueur pour éviter débordements
-                        real_text = real[:400] + '...' if len(real) > 400 else real
                         content_elements.append(Paragraph(
-                            f'✓ {real_text}',
+                            f'✓ {real}',
                             ParagraphStyle('Bullet', fontSize=9.5, leftIndent=15, textColor=self.text_gray, leading=14, spaceAfter=3)
                         ))
                 content_elements.append(Spacer(1, 0.2*cm))
@@ -441,6 +437,7 @@ class AdvancedProfessionalTemplate:
                 ('RIGHTPADDING', (0, 0), (-1, -1), 15),
                 ('TOPPADDING', (0, 0), (-1, -1), 12),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Allow content to flow
             ]))
             elements.append(content_box)
 
