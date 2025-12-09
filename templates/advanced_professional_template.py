@@ -428,17 +428,13 @@ class AdvancedProfessionalTemplate:
                     self.normal_style
                 ))
 
-            # Wrap content in box
-            content_box = Table([[content_elements]], colWidths=[17.4*cm])
-            content_box.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, -1), colors.white),
-                ('BOX', (0, 0), (-1, -1), 1, self.light_blue),
-                ('LEFTPADDING', (0, 0), (-1, -1), 15),
-                ('RIGHTPADDING', (0, 0), (-1, -1), 15),
-                ('TOPPADDING', (0, 0), (-1, -1), 12),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
-            ]))
-            elements.append(content_box)
+            # Wrap content in box - use frame instead of table for better flow
+            from reportlab.platypus import Frame
+            from reportlab.platypus.flowables import Flowable
+
+            # Just append elements directly with spacing
+            for elem in content_elements:
+                elements.append(elem)
 
             # Spacing
             if idx < len(experiences) - 1:
