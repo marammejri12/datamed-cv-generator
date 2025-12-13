@@ -1,11 +1,16 @@
-# 🚀 DataMed CV Generator
+# DataMed CV Anonymizer
 
-**Application web d'anonymisation intelligente de CVs avec IA Gemini**
+Application de génération automatique de CVs anonymes avec Intelligence Artificielle pour DataMed ESN.
 
-## 🌐 Accès en Ligne
+## Description
 
-L'application est accessible directement dans votre navigateur sans installation:
-**[Accéder à l'application](#)** *(lien disponible après déploiement)*
+Cette application permet aux ingénieurs de DataMed de :
+1. **Importer** un CV de consultant (PDF ou DOCX)
+2. **Extraire automatiquement** 100% du contenu avec l'IA Gemini
+3. **Générer** un CV anonyme professionnel au format DataMed ou FastorGie
+4. **Exporter** en PDF ou Word
+
+L'application extrait TOUT le contenu du CV (formations, certifications, compétences, expériences) et le rend anonyme (supprime nom, prénom, email, adresse)
 
 ## ✨ Fonctionnalités
 
@@ -17,169 +22,134 @@ L'application est accessible directement dans votre navigateur sans installation
 - ⚡ **Ultra rapide** - Génération en quelques secondes
 - 💻 **Interface web moderne** - Accessible partout, sur tous les appareils
 
-## 📋 Prérequis
+## Prérequis
 
-- Python 3.8 ou supérieur
-- Windows 10/11 (ou Linux/Mac avec adaptations mineures)
+- Python 3.8+
+- Clé API Google Gemini (obligatoire pour extraction IA)
 
-## 🔧 Installation
+## Installation
 
-### Installation automatique (Recommandée)
-
+1. Installer les dépendances :
 ```bash
-# 1. Cloner ou télécharger le projet
-cd cv_anonymizer
-
-# 2. Exécuter le script d'installation
-install.bat
-```
-
-### Installation manuelle
-
-```bash
-# 1. Créer un environnement virtuel
-python -m venv venv
-
-# 2. Activer l'environnement virtuel
-# Windows:
-venv\Scripts\activate
-# Linux/Mac:
-source venv/bin/activate
-
-# 3. Installer les dépendances
 pip install -r requirements.txt
 ```
 
-## 🚀 Utilisation
+2. Configurer la clé API Gemini :
+   - Créer un fichier `.env` à la racine
+   - Ajouter : `GEMINI_API_KEY=votre_cle_api`
 
-### Lancer l'application
+## Utilisation - Application Desktop (PyQt6)
 
+Lancer l'application graphique :
 ```bash
-# Windows
 python main.py
-
-# Ou double-cliquer sur run.bat
 ```
 
-### Étapes d'utilisation
+### Étapes :
+1. Choisir le template (DataMed ou FastorGie)
+2. Choisir le format d'export (PDF ou Word)
+3. Glisser-déposer le CV ou cliquer pour parcourir
+4. Cliquer sur "Générer le CV Anonyme"
+5. Attendre 30-60 secondes (extraction IA)
+6. Le CV anonyme est généré !
 
-1. **Choisir le template** - Sélectionnez "DataMed - Professionnel"
-2. **Importer le CV** - Glissez-déposez le fichier ou cliquez pour parcourir
-3. **Générer** - Cliquez sur "🚀 Générer CV Anonyme"
-4. **Enregistrer** - Choisissez l'emplacement de sauvegarde
-5. **Terminé!** - Votre CV anonyme est prêt!
+## Utilisation - Application Web (Streamlit) - Optionnel
 
-## 📁 Structure du Projet
+```bash
+streamlit run app_streamlit.py
+```
+
+## Structure du Projet
 
 ```
 cv_anonymizer/
-├── main.py                      # Point d'entrée principal
-├── requirements.txt             # Dépendances Python
-├── ui/
-│   ├── main_window.py          # Interface graphique principale
-│   └── styles.py               # Styles CSS modernes
+├── main.py                    # Point d'entrée application desktop
+├── app_streamlit.py          # Point d'entrée application web (optionnel)
+├── config.py                 # Configuration
+├── .env                      # Clé API (à créer)
+├── requirements.txt          # Dépendances
+│
 ├── parsers/
-│   └── cv_parser.py            # Extraction automatique des CVs
+│   ├── ai_cv_parser.py      # Parser IA avec Gemini (extraction 100%)
+│   └── cv_parser.py         # Parser basique (fallback)
+│
 ├── templates/
-│   └── datamed_template.py     # Template DataMed professionnel
+│   ├── datamed_template.py       # Template DataMed (bleu marine)
+│   ├── fastorgie_template.py    # Template FastorGie (rouge)
+│   └── advanced_professional_template.py  # Template avancé
+│
 ├── generators/
-│   └── pdf_generator.py        # Génération PDF
+│   ├── pdf_generator.py     # Générateur PDF
+│   └── word_generator.py    # Générateur Word
+│
+├── ui/
+│   ├── main_window.py       # Interface graphique PyQt6
+│   └── styles.py            # Styles de l'interface
+│
 └── utils/
-    └── anonymizer.py           # Logique d'anonymisation
+    └── anonymizer.py        # Anonymisation des données
 ```
 
-## 🎨 Templates Disponibles
+## Templates Disponibles
 
-### DataMed - Professionnel ✅
-- ✅ Design exact DataMed
-- ✅ Tableaux structurés
-- ✅ Logo et header
-- ✅ Sections: Diplômes, Compétences, Langues, Expériences
-- ✅ Anonymisation complète
+### 1. DataMed - Advanced Professional (Bleu Marine)
+- Logo DataMed
+- Sections : Diplômes, Certifications, Compétences, Langues, Expériences
+- Couleur principale : Bleu marine (#1e3a5f)
 
-### Templates à venir
-- DataMed - Minimal
-- Format Standard
+### 2. FastorGie - Professional (Rouge)
+- Logo FastorGie
+- Même structure que DataMed
+- Couleur principale : Rouge
 
-## 🔒 Anonymisation
+## Extraction IA - 100% du Contenu
+
+Le parser IA (Gemini 1.5 Pro) extrait :
+- **Tous les diplômes** avec année, titre, établissement
+- **Toutes les certifications** (AWS, Azure, Oracle, etc.)
+- **Toutes les compétences techniques** classifiées intelligemment
+- **Toutes les langues** avec niveaux
+- **Toutes les expériences** avec TOUS les détails :
+  - Entreprise (vrai nom conservé)
+  - Période exacte
+  - Poste complet
+  - Projets détaillés
+  - TOUS les bullet points (réalisations)
+  - Environnement technique complet
+
+## Formats d'Export
+
+- **PDF** : Format professionnel avec mise en page optimisée
+- **Word (DOCX)** : Format éditable pour modifications ultérieures
+
+## Anonymisation
 
 L'application anonymise automatiquement:
+- Nom et prénom → "Nom & Prénom"
+- Email → Supprimé
+- Téléphone → Supprimé
+- Adresse → Supprimée
 
-- ✅ Nom et prénom → "Nom & Prénom"
-- ✅ Email → Supprimé
-- ✅ Téléphone → Supprimé
-- ✅ Adresse → Supprimée
-- ✅ Noms d'entreprises → "ENTREPRISE"
-- ✅ Informations de localisation
+**Conservé (pour le CV anonyme):**
+- Compétences techniques complètes
+- Technologies utilisées
+- Expériences professionnelles détaillées (avec vrai nom entreprise)
+- Diplômes et formations
+- Langues et niveaux
 
-**Conservé:**
-- ✅ Compétences techniques
-- ✅ Technologies utilisées
-- ✅ Expériences (anonymisées)
-- ✅ Diplômes et formations
-- ✅ Langues et niveaux
+## Dépannage
 
-## 🐛 Dépannage
+### Erreur "GEMINI_API_KEY not found"
+- Vérifier que le fichier `.env` existe
+- Vérifier que la clé API est correcte
 
-### L'application ne se lance pas
-```bash
-# Vérifier l'installation de Python
-python --version
+### Extraction incomplète
+- Vérifier la version de `google-generativeai`
+- L'IA extrait maintenant 100% du contenu (améliorations récentes)
 
-# Réinstaller les dépendances
-pip install -r requirements.txt --force-reinstall
-```
+### Erreur PyQt6
+- Installer PyQt6 : `pip install PyQt6`
 
-### Erreur lors de la génération
-- Vérifiez que le CV est bien au format PDF ou DOCX
-- Assurez-vous que le fichier n'est pas corrompu
-- Consultez les logs dans l'interface
+## Support
 
-## 📝 Notes Techniques
-
-### Formats supportés
-- **Entrée:** PDF, DOCX, DOC
-- **Sortie:** PDF professionnel
-
-### Extraction intelligente
-L'application utilise:
-- **pdfplumber** pour l'extraction PDF
-- **python-docx** pour les fichiers Word
-- **Regex avancés** pour le parsing structuré
-- **ReportLab** pour la génération PDF professionnelle
-
-## 🎯 Cas d'Usage
-
-### Pour les ESN / Cabinets de recrutement
-- Anonymiser les CVs avant envoi aux clients
-- Respecter les réglementations RGPD
-- Standardiser le format des CVs
-- Gain de temps considérable
-
-### Pour les Recruteurs
-- Éviter les biais de recrutement
-- Focus sur les compétences techniques
-- Process de recrutement conforme
-
-## 🚀 Améliorations Futures
-
-- [ ] Support OCR pour CVs scannés
-- [ ] Templates personnalisables
-- [ ] Export multiple (Word, JSON)
-- [ ] Traitement par lot
-- [ ] API REST
-- [ ] Intégration Boond
-
-## 📧 Contact & Support
-
-Pour toute question ou problème:
-- 📧 Email: support@consultingdatamed.com
-- 🌐 Website: www.consultingdatamed.com
-
-## 📄 Licence
-
-© 2024 DataMed Consulting. Tous droits réservés.
-
----
-
-**Développé avec ❤️ pour simplifier votre workflow de recrutement**
+Pour toute question, contacter l'équipe DataMed.

@@ -1,13 +1,17 @@
 """
 Configuration file for CV Anonymizer
 """
+import os
+from dotenv import load_dotenv
 
-# Gemini API Configuration
-# Ta clé API Gemini
-GEMINI_API_KEY = 'AIzaSyB4EvSCJDTGwx5aNytQmR81LdlHrJ_NL6w'
+# Load environment variables from .env file
+load_dotenv()
+
+# Gemini API Configuration (from .env file)
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '')
 
 # Template par défaut
-DEFAULT_TEMPLATE = 'professional'  # ou 'datamed'
+DEFAULT_TEMPLATE = 'advanced'  # DataMed Advanced
 
 # Logo path
 LOGO_PATH = 'image/datamed_consulting_logo.png'

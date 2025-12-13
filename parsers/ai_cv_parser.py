@@ -99,129 +99,46 @@ class AICVParser:
         """
         Use Gemini AI to extract and classify CV data intelligently
         """
-        prompt = f"""
-MISSION CRITIQUE: Tu es un EXPERT en extraction de CVs. Tu DOIS extraire **100% DU CONTENU**. Si tu manques UN SEUL élément, l'extraction échouera.
+        prompt = f"""Extrais TOUT le contenu du CV en JSON. Ne résume rien, copie tout tel quel.
 
-⚠️ RÈGLES ABSOLUES - AUCUNE EXCEPTION:
-1. LIS le CV LIGNE PAR LIGNE, MOT PAR MOT - Ne saute RIEN
-2. COMPTE les éléments avant d'extraire (combien de diplômes? combien de compétences? combien d'expériences?)
-3. VÉRIFIE que tu as tout extrait en comptant à nouveau
-4. Pour les expériences: CHAQUE bullet point, CHAQUE phrase = une entrée séparée
-5. Pour les compétences: LISTE **TOUTES** les technologies, frameworks, outils mentionnés PARTOUT dans le CV
-6. CLASSIFIE intelligemment en créant des groupes logiques adaptés au profil
-
-PRENDS TON TEMPS. C'EST CRITIQUE. NE TE PRÉCIPITE PAS.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CV COMPLET À ANALYSER (LIS TOUT):
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
+CV:
 {text}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-AVANT de répondre:
-1. Compte combien de diplômes tu vois
-2. Compte combien de technologies/compétences différentes sont mentionnées
-3. Compte combien d'expériences professionnelles
-4. Liste TOUTES les certifications (AWS, Azure, Oracle, etc.)
-
-Retourne un JSON avec TOUTES ces informations:
-
+Format JSON (COMPLETE AVANT D'ARRÊTER):
 {{
-    "diplomes": [
-        {{
-            "annee": "année du diplôme",
-            "diplome": "titre complet du diplôme",
-            "etablissement": "nom complet de l'établissement avec ville et pays"
-        }}
-    ],
-    "certifications": [
-        {{
-            "annee": "année de certification",
-            "nom": "nom complet de la certification",
-            "organisme": "organisme délivrant (AWS, Microsoft, Oracle, etc.)"
-        }}
-    ],
-    "competences_groups": [
-        {{
-            "categorie": "nom de la catégorie (ex: Langages de Programmation, Big Data & Analytics, Cloud & DevOps, etc.)",
-            "competences": ["liste des compétences dans cette catégorie"]
-        }}
-    ],
-    "langues": [
-        {{
-            "langue": "nom de la langue",
-            "niveau": "niveau (Professionnel, Bilingue, Courant, etc.)"
-        }}
-    ],
-    "experiences": [
-        {{
-            "entreprise": "nom de l'entreprise (garder le vrai nom!)",
-            "periode": "période exacte (ex: Mars 2022 - ce jour)",
-            "poste": "titre exact du poste",
-            "lieu": "ville et pays si mentionné",
-            "projets": ["description COMPLÈTE de chaque projet"],
-            "realisations": ["TOUTES les réalisations, tâches, responsabilités - une par ligne"],
-            "environnement": ["TOUS les outils, technologies, frameworks utilisés"]
-        }}
-    ]
+  "titre_professionnel": "Titre professionnel (ex: Business Analyste Salesforce)",
+  "diplomes": [{{"annee": "2020", "diplome": "...", "etablissement": "..."}}],
+  "certifications": [{{"annee": "2021", "nom": "...", "organisme": "..."}}],
+  "competences_groups": [{{"categorie": "...", "competences": ["..."]}},
+  "langues": [{{"langue": "...", "niveau": "..."}}],
+  "experiences": [{{
+    "entreprise": "...",
+    "periode": "...",
+    "poste": "...",
+    "lieu": "...",
+    "projets": ["..."],
+    "realisations": ["..."],
+    "environnement": ["..."]
+  }}]
 }}
 
-INSTRUCTIONS ABSOLUES - NE SAUTE RIEN:
-
-DIPLÔMES:
-- Extrais CHAQUE diplôme mentionné avec année, titre complet et établissement
-- Si plusieurs diplômes → tous dans le tableau
-- Garde les noms exacts des écoles/universités
-
-CERTIFICATIONS:
-- Extrais TOUTES les certifications professionnelles (AWS, Azure, Google Cloud, Oracle, etc.)
-- Avec année et organisme délivrant
-- Si aucune certification trouvée → tableau vide []
-
-COMPÉTENCES - CLASSIFICATION INTELLIGENTE:
-- Cherche dans TOUT le CV: sections compétences, expériences, projets
-- CLASSIFIE automatiquement chaque technologie/outil dans des groupes logiques
-- Exemples de catégories intelligentes:
-  * "Langages de Programmation": Java, Python, JavaScript, TypeScript, C++, C#, Scala, etc.
-  * "Big Data & Analytics": Hadoop, Spark, Kafka, Hive, Elasticsearch, etc.
-  * "Cloud & DevOps": AWS, Azure, GCP, Docker, Kubernetes, Terraform, Ansible, etc.
-  * "Bases de Données": Oracle, PostgreSQL, MySQL, MongoDB, Redis, Cassandra, etc.
-  * "Frameworks Backend": Spring Boot, Django, Flask, Express, Hibernate, etc.
-  * "Frameworks Frontend": Angular, React, Vue, Next.js, etc.
-  * "Data Architecture & Modeling": UML, Merise, Data Warehouse, ETL, Data Lake, etc.
-  * "CI/CD & Build Tools": Jenkins, GitLab CI, Maven, Gradle, npm, etc.
-  * "Testing & Quality": JUnit, Mockito, Selenium, SonarQube, etc.
-  * "Méthodologies": Agile, Scrum, Kanban, DevOps, etc.
-  * "Outils & IDE": IntelliJ, VSCode, Eclipse, Jira, Confluence, etc.
-- Crée des catégories ADAPTÉES au profil du candidat
-- Si profil Data → crée catégories: "Big Data", "Data Engineering", "Data Modeling"
-- Si profil DevOps → crée catégories: "Cloud", "Containerization", "Orchestration"
-- Si profil Web → crée catégories: "Frontend", "Backend", "Full Stack"
-
-LANGUES:
-- Si langues mentionnées: extrais toutes avec niveaux
-- Si rien: mets au moins [{{"langue": "Français", "niveau": "Langue maternelle"}}]
-
-EXPÉRIENCES:
-- Pour CHAQUE expérience:
-  * Nom entreprise (garder le vrai nom!)
-  * Période exacte (format: "Mois Année - Mois Année")
-  * Poste exact
-  * Lieu si mentionné
-  * Projets: description COMPLÈTE (2-3 lignes minimum)
-  * Réalisations: CHAQUE bullet point = une entrée dans le tableau
-  * Environnement: TOUTES les technos mentionnées pour ce poste
-
-CRITIQUE: Si le CV mentionne 15 technologies, tu DOIS en extraire 15, pas 5!
-
-Retourne UNIQUEMENT le JSON valide, rien d'autre.
+RÈGLES:
+- Extrais TOUS les diplômes/certifications/expériences
+- Pour expériences: garde nom réel entreprise, TOUS les bullet points
+- Groupe compétences par catégorie intelligente
+- IMPORTANT: Ferme tous les tableaux et objets avant de terminer
+- Retourne UNIQUEMENT JSON valide, pas de texte avant/après
 """
 
         try:
             response = self.model.generate_content(prompt)
             json_text = response.text.strip()
+
+            # SAVE RAW JSON TO FILE FOR DEBUGGING
+            debug_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'gemini_response_raw.json')
+            with open(debug_file, 'w', encoding='utf-8') as f:
+                f.write(json_text)
+            print(f"📁 JSON brut sauvegardé dans: {debug_file}")
 
             # Clean markdown code blocks if present
             if json_text.startswith('```json'):
@@ -233,8 +150,34 @@ Retourne UNIQUEMENT le JSON valide, rien d'autre.
 
             json_text = json_text.strip()
 
+            # Additional cleaning - remove any text before first { or after last }
+            first_brace = json_text.find('{')
+            last_brace = json_text.rfind('}')
+            if first_brace != -1 and last_brace != -1:
+                json_text = json_text[first_brace:last_brace+1]
+
             # Parse JSON
             data = json.loads(json_text)
+
+            # Add titre_professionnel field if not present (extract from CV)
+            if 'titre_professionnel' not in data:
+                # Try to extract job title from text
+                import re
+                # Look for common patterns
+                title_patterns = [
+                    r'(?i)consultant\s+(\w+(?:\s+\w+){0,3})',
+                    r'(?i)(data\s+\w+)',
+                    r'(?i)(développeur\s+\w+)',
+                    r'(?i)(architecte\s+\w+)',
+                ]
+                for pattern in title_patterns:
+                    match = re.search(pattern, text)
+                    if match:
+                        data['titre_professionnel'] = match.group(0).title()
+                        break
+                else:
+                    data['titre_professionnel'] = 'Consultant IT'
+
             return data
 
         except Exception as e:

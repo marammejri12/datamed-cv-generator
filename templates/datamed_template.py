@@ -96,9 +96,12 @@ class DataMedTemplate:
         # Add logo and header
         story.extend(self._create_header())
 
-        # Add title
+        # Add title with professional title
         story.append(Paragraph("Nom & Prénom", self.title_style))
-        story.append(Paragraph('<u><link href="">Profil</link></u>', self.profile_style))
+
+        # Professional title from CV data
+        titre_pro = data.get('titre_professionnel', 'Consultant IT')
+        story.append(Paragraph(titre_pro, self.profile_style))
         story.append(Spacer(1, 0.3*cm))
 
         # Add Diplomes & Formations
@@ -175,25 +178,37 @@ class DataMedTemplate:
         """Create diplomas section with table"""
         elements = []
 
-        # Section header
-        header = Paragraph("Diplômes & formations", self.section_style)
+        if not diplomes:
+            return elements
+
+        # Section header - BLEU MARINE
+        header = Paragraph("<b>DIPLÔMES & FORMATIONS</b>", self.section_style)
         header_table = Table([[header]], colWidths=[17*cm])
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#808080')),
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#1e3a5f')),  # BLEU MARINE
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.white),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 4),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ]))
         elements.append(header_table)
-        elements.append(Spacer(1, 0.2*cm))
+        elements.append(Spacer(1, 0.4*cm))
 
         # Diplomes table
         table_data = []
 
         for diplome in diplomes:
-            annee = Paragraph(f"<b>{diplome.get('annee', '')}</b>", self.bold_style)
+            # Handle None values from JSON null
+            annee_val = diplome.get('annee') or ''
+            annee_val = str(annee_val).strip() if annee_val else ''
+
+            # Only show year if it exists and is not empty/None
+            if annee_val and annee_val.lower() not in ['none', '', 'null', 'non spécifié']:
+                annee = Paragraph(f"<b>{annee_val}</b>", self.bold_style)
+            else:
+                annee = Paragraph("", self.bold_style)  # Empty if no year
+
             diplome_text = Paragraph(
                 f"<b>{diplome.get('diplome', '')}</b><br/>"
                 f"<font size=8>{diplome.get('etablissement', '')}</font>",
@@ -220,30 +235,50 @@ class DataMedTemplate:
         """Create certifications section with table"""
         elements = []
 
-        # Section header
-        header = Paragraph("Certifications", self.section_style)
+        if not certifications:
+            return elements
+
+        # Section header - BLEU MARINE
+        header = Paragraph("<b>CERTIFICATIONS</b>", self.section_style)
         header_table = Table([[header]], colWidths=[17*cm])
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#808080')),
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#1e3a5f')),  # BLEU MARINE
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.white),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 4),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ]))
         elements.append(header_table)
-        elements.append(Spacer(1, 0.2*cm))
+        elements.append(Spacer(1, 0.4*cm))
 
         # Certifications table
         table_data = []
 
         for cert in certifications:
-            annee = Paragraph(f"<b>{cert.get('annee', '')}</b>", self.bold_style)
-            cert_text = Paragraph(
-                f"<b>{cert.get('nom', '')}</b><br/>"
-                f"<font size=8>{cert.get('organisme', '')}</font>",
-                self.normal_style
-            )
+            # Handle None values from JSON null
+            annee_val = cert.get('annee') or ''
+            annee_val = str(annee_val).strip() if annee_val else ''
+
+            # Only show year if it exists and is not empty/None
+            if annee_val and annee_val.lower() not in ['none', '', 'null', 'non spécifié']:
+                annee = Paragraph(f"<b>{annee_val}</b>", self.bold_style)
+            else:
+                annee = Paragraph("", self.bold_style)  # Empty if no year
+
+            # Handle organisme - don't show if None or empty
+            organisme_val = cert.get('organisme') or ''
+            organisme_val = str(organisme_val).strip() if organisme_val and str(organisme_val).lower() not in ['none', 'null'] else ''
+
+            cert_name = cert.get('nom', '')
+            if organisme_val:
+                cert_text = Paragraph(
+                    f"<b>{cert_name}</b><br/>"
+                    f"<font size=8>{organisme_val}</font>",
+                    self.normal_style
+                )
+            else:
+                cert_text = Paragraph(f"<b>{cert_name}</b>", self.normal_style)
             table_data.append([annee, cert_text])
 
         if table_data:
@@ -265,19 +300,22 @@ class DataMedTemplate:
         """Create technical skills section with AI-grouped competences"""
         elements = []
 
-        # Section header
-        header = Paragraph("Compétences Techniques", self.section_style)
+        if not competences_groups:
+            return elements
+
+        # Section header - BLEU MARINE
+        header = Paragraph("<b>COMPÉTENCES TECHNIQUES</b>", self.section_style)
         header_table = Table([[header]], colWidths=[17*cm])
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#808080')),
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#1e3a5f')),  # BLEU MARINE
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.white),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 4),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ]))
         elements.append(header_table)
-        elements.append(Spacer(1, 0.2*cm))
+        elements.append(Spacer(1, 0.4*cm))
 
         # Build table from AI-grouped competences
         table_data = []
@@ -312,19 +350,22 @@ class DataMedTemplate:
         """Create languages section with table"""
         elements = []
 
-        # Section header
-        header = Paragraph("Langues", self.section_style)
+        if not langues:
+            return elements
+
+        # Section header - BLEU MARINE
+        header = Paragraph("<b>LANGUES</b>", self.section_style)
         header_table = Table([[header]], colWidths=[17*cm])
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#808080')),
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#1e3a5f')),  # BLEU MARINE
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.white),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 4),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ]))
         elements.append(header_table)
-        elements.append(Spacer(1, 0.2*cm))
+        elements.append(Spacer(1, 0.4*cm))
 
         # Languages table
         table_data = []
@@ -353,19 +394,22 @@ class DataMedTemplate:
         """Create professional experiences section"""
         elements = []
 
-        # Section header
-        header = Paragraph("Expériences professionnelles", self.section_style)
+        if not experiences:
+            return elements
+
+        # Section header - BLEU MARINE
+        header = Paragraph("<b>EXPÉRIENCES PROFESSIONNELLES</b>", self.section_style)
         header_table = Table([[header]], colWidths=[17*cm])
         header_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#808080')),
+            ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#1e3a5f')),  # BLEU MARINE
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.white),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 4),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 0), (-1, -1), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
         ]))
         elements.append(header_table)
-        elements.append(Spacer(1, 0.3*cm))
+        elements.append(Spacer(1, 0.5*cm))
 
         for exp in experiences:
             # Company header with blue background
