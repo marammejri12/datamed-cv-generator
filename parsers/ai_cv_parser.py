@@ -134,10 +134,14 @@ RÈGLES:
             response = self.model.generate_content(prompt)
             json_text = response.text.strip()
 
-            # SAVE RAW JSON TO FILE FOR DEBUGGING
-            debug_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'gemini_response_raw.json')
-            with open(debug_file, 'w', encoding='utf-8') as f:
-                f.write(json_text)
+            # SAVE RAW JSON TO FILE FOR DEBUGGING - Use temp directory to avoid permission issues
+            import tempfile
+            debug_file = os.path.join(tempfile.gettempdir(), 'datamed_gemini_response.json')
+            try:
+                with open(debug_file, 'w', encoding='utf-8') as f:
+                    f.write(json_text)
+            except Exception:
+                pass  # Ignore if can't write debug file
             print(f"📁 JSON brut sauvegardé dans: {debug_file}")
 
             # Clean markdown code blocks if present

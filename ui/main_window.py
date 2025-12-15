@@ -22,6 +22,14 @@ try:
 except:
     GEMINI_API_KEY = ''
 
+# Import updater (optional - auto-update feature)
+try:
+    from updater import AutoUpdater, GITHUB_REPO_URL, APP_VERSION
+    UPDATER_AVAILABLE = True
+except ImportError:
+    UPDATER_AVAILABLE = False
+    APP_VERSION = "1.0.0"
+
 
 class CVProcessingThread(QThread):
     """Background thread for CV processing"""
@@ -476,6 +484,23 @@ class MainWindow(QMainWindow):
         buttons_layout.addWidget(self.generate_btn, 2)
         buttons_layout.addWidget(self.open_folder_btn, 1)
 
+        # Update button (only if updater is available)
+        if UPDATER_AVAILABLE:
+            self.update_btn = QPushButton("🔄 Mise à jour")
+            self.update_btn.clicked.connect(self.on_update_clicked)
+            self.update_btn.setMinimumHeight(55)
+            self.update_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #10b981;
+                    border-color: #059669;
+                }
+                QPushButton:hover {
+                    background-color: #059669;
+                    border-color: #047857;
+                }
+            """)
+            buttons_layout.addWidget(self.update_btn, 1)
+
         main_layout.addLayout(buttons_layout)
 
         # ============ LOG SECTION ============
@@ -620,6 +645,68 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'output_path'):
             folder = os.path.dirname(self.output_path)
             os.startfile(folder)
+
+    def on_update_clicked(self):
+        """Check and install updates from GitHub"""
+        if not UPDATER_AVAILABLE:
+            QMessageBox.warning(self, "Mise à jour indisponible", "Le système de mise à jour n'est pas disponible.")
+            return
+
+        # Disable button during update
+        self.update_btn.setEnabled(False)
+        self.update_btn.setText("🔄 En cours...")
+
+        self.log("=" * 60)
+        self.log("🔄 VÉRIFICATION DES MISES À JOUR")
+        self.log("=" * 60)
+
+        try:
+            # Create updater
+            updater = AutoUpdater(GITHUB_REPO_URL, APP_VERSION)
+
+            # Auto update with progress callback
+            def progress_callback(message):
+                self.log(message)
+
+            result = updater.auto_update(progress_callback=progress_callback)
+
+            if result['success']:
+                if result.get('updated'):
+                    # Update successful
+                    self.log("=" * 60)
+                    self.log(f"✅ {result['message']}")
+                    self.log(f"📌 Version: {result.get('version', 'latest')}")
+                    self.log("=" * 60)
+
+                    # Show message box
+                    reply = QMessageBox.question(
+                        self,
+                        "Mise à jour réussie",
+                        f"{result['message']}\n\nRedémarrer maintenant?",
+                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+                    )
+
+                    if reply == QMessageBox.StandardButton.Yes:
+                        # Restart application
+                        python = sys.executable
+                        os.execl(python, python, *sys.argv)
+                else:
+                    # No update needed
+                    self.log("✅ Vous avez déjà la dernière version")
+                    QMessageBox.information(self, "Aucune mise à jour", result['message'])
+            else:
+                # Update failed
+                self.log(f"❌ {result['message']}")
+                QMessageBox.warning(self, "Erreur", f"Mise à jour échouée:\n\n{result['message']}")
+
+        except Exception as e:
+            self.log(f"❌ Erreur: {str(e)}")
+            QMessageBox.critical(self, "Erreur", f"Erreur lors de la mise à jour:\n\n{str(e)}")
+
+        finally:
+            # Re-enable button
+            self.update_btn.setEnabled(True)
+            self.update_btn.setText("🔄 Mise à jour")
 
     def log(self, message: str):
         """Add message to log area"""
