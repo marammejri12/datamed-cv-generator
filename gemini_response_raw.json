@@ -1,0 +1,347 @@
+{
+  "titre_professionnel": "Consultant IT",
+  "diplomes": [],
+  "certifications": [
+    {
+      "annee": null,
+      "nom": "SALESFORCE ADMINISTRATOR",
+      "organisme": "Salesforce"
+    },
+    {
+      "annee": null,
+      "nom": "SALESFORCE DATA ARCHITECT",
+      "organisme": "Salesforce"
+    },
+    {
+      "annee": null,
+      "nom": "SALESFORCE APP BUILDER",
+      "organisme": "Salesforce"
+    },
+    {
+      "annee": null,
+      "nom": "SALESFORCE EXPERIENCE CLOUD",
+      "organisme": "Salesforce"
+    },
+    {
+      "annee": null,
+      "nom": "SALESFORCE SERVICE CLOUD",
+      "organisme": "Salesforce"
+    },
+    {
+      "annee": null,
+      "nom": "SCRUM MASTER PSM",
+      "organisme": "Scrum.org"
+    }
+  ],
+  "competences_groups": [
+    {
+      "categorie": "Salesforce Platform & Cloud Expertise",
+      "competences": [
+        "Salesforce Ecosystem",
+        "Sales Cloud",
+        "Service Cloud",
+        "Experience Cloud",
+        "CRM",
+        "Trailhead",
+        "Salesforce Administration (General)",
+        "Lead Management",
+        "Account Management",
+        "Opportunity Management"
+      ]
+    },
+    {
+      "categorie": "Salesforce Configuration & Development",
+      "competences": [
+        "SFDC Configuration",
+        "User Management (Profiles, Permission Sets, Roles, Sharing Settings, Queues)",
+        "Object Management (Object Configuration, Tabs, Custom Fields, Schema Builder, Record Types, Validation Rules)",
+        "Process Automation (Approval Processes, Flows, Entitlement Processes, Milestones, Workflows, Process Builder)",
+        "User Interface Configuration (Lightning App Builder, Lightning Pages, Paths, Global Actions, Sales Console, Service Console)",
+        "App Building (Salesforce)",
+        "Data Architecture",
+        "Data Management (Batch Creation, Data Loader, Data Import/Export Wizards, Workbench)",
+        "API Integration (Get/Post/Update/Delete Requests, Postman, REST, SOAP, BULK API)",
+        "Query Languages (SOQL, SOSL)",
+        "Developer Console",
+        "Salesforce Inspector",
+        "Solution Configuration"
+      ]
+    },
+    {
+      "categorie": "Project Management & Agile Methodologies",
+      "competences": [
+        "Project Management",
+        "Agile Methodologies",
+        "Scrum",
+        "SAFe (Scaled Agile Framework)",
+        "International Projects",
+        "Project Kickoff",
+        "Roadmap Validation",
+        "Backlog Management (Constitution, Prioritization)",
+        "User Stories",
+        "Sprint Zero (Sprint0)",
+        "Agile Rituals (Scrum Events, PI Planning, System Demos)",
+        "Confluence",
+        "Jira",
+        "Iyobeya (Project Management Tool)",
+        "Project Rollout (Global, International Deployments)",
+        "Project Planning",
+        "Feature Deployment",
+        "Build Projects",
+        "Run Projects",
+        "End-to-End Project Involvement",
+        "Follow-up (Tickets, Problems, Bugs)"
+      ]
+    },
+    {
+      "categorie": "Business Analysis & Consulting",
+      "competences": [
+        "Business Analysis",
+        "Salesforce Consulting (Functional)",
+        "Business Process Identification & Design",
+        "Gap Analysis",
+        "Requirements Gathering (Prise de besoins, Recueil du besoin client)",
+        "Scoping",
+        "Functional Specifications (Writing, Updating)",
+        "Documentation Creation (General, Process, Guides)",
+        "Client Interaction (Presentations, Demos, Q&A, Note Taking, Proposal Development)",
+        "Expression de besoins (Writing Requirements)",
+        "Notes de cadrage (Scoping Notes)",
+        "Cahier des charges (Specifications)",
+        "Functional Review (Deployed Features)",
+        "Sales Force Assistance"
+      ]
+    },
+    {
+      "categorie": "Testing & Quality Assurance",
+      "competences": [
+        "Functional Testing (UAT, Recette)",
+        "Test Scenario Execution",
+        "Bug Detection",
+        "Specification Testing"
+      ]
+    },
+    {
+      "categorie": "Training & Change Management",
+      "competences": [
+        "Training (General)",
+        "User Training (End-users, IT Teams)",
+        "Training Support & Material Creation",
+        "Skill Development (Montée en compétence)",
+        "Change Management (Conduite du Changement)",
+        "User Adoption",
+        "Coaching & Mentoring",
+        "Udemy Course Creation",
+        "Reversibility Training (New Teams)",
+        "Training Workshops"
+      ]
+    },
+    {
+      "categorie": "Data Management & Reporting",
+      "competences": [
+        "Data Import/Export",
+        "Reporting",
+        "Dashboard Creation",
+        "KPI Analysis",
+        "Big Data"
+      ]
+    },
+    {
+      "categorie": "Certifications",
+      "competences": [
+        "Salesforce Administrator Certification",
+        "Salesforce Data Architect Certification",
+        "Salesforce App Builder Certification",
+        "Salesforce Experience Cloud Certification",
+        "Salesforce Service Cloud Certification",
+        "Scrum Master PSM I Certification"
+      ]
+    },
+    {
+      "categorie": "General Business & Digital Transformation",
+      "competences": [
+        "Digital Transformation",
+        "International Marketing",
+        "Customer Relationship Management (Concept)"
+      ]
+    }
+  ],
+  "langues": [
+    {
+      "langue": "Français",
+      "niveau": "Bilingue"
+    }
+  ],
+  "experiences": [
+    {
+      "entreprise": "AKKODIS",
+      "poste": "SALESFORCE CONSULTANT",
+      "periode": "11/[PHONE] - 05/[PHONE]",
+      "lieu": "",
+      "projets": [
+        "Global Salesforce Implementation Project (Kickoff, roadmap validation, backlog constitution, Sprint0)",
+        "UAT Project for CRM, ATS, and PSA (covering recruitment and sales processes)",
+        "Salesforce Country Rollout Management",
+        "Salesforce Process Design and Alignment Project (aligned on Akkodis' global operational model)",
+        "Global Salesforce Training and Support Project"
+      ],
+      "realisations": [
+        "Identification des process métier globaux",
+        "Validation de la roadmap de l'année",
+        "Démarrage des premières réunions avec les pays pilotes",
+        "Constitution du premier backlog",
+        "Embarquement des priorités en Sprint0",
+        "Aide à la priorisation des scénarios de tests UAT",
+        "Conception des scénarios de tests UAT pour CRM, ATS et PSA",
+        "Exécution des scénarios de tests UAT pour CRM, ATS et PSA",
+        "Création de la documentation (UAT)",
+        "Présentation de l'existant aux pays",
+        "Sessions de gap analysis",
+        "Priorisation des évolutions globales",
+        "Embarquement des évolutions globales",
+        "Conception des processus Salesforce alignés sur le modèle opérationnel global d’Akkodis",
+        "Mise en place de Users Profiles",
+        "Mise en place de Permission sets",
+        "Mise en place de Roles",
+        "Mise en place de Sharing settings",
+        "Mise en place de Queues",
+        "Soutien aux déploiements internationaux",
+        "Pilotage de la conduite du changement dans plusieurs régions",
+        "Mise en place de support Salesforce",
+        "Mise en place de formation Salesforce",
+        "Dispensation de la formation Salesforce ASTRO aux utilisateurs finaux",
+        "Dispensation de la formation Salesforce ASTRO aux équipes IT en Allemagne, Suisse, Pays-Bas, Australie, France",
+        "Accompagnement complet d’un pays dans le déploiement de Salesforce (en tant que Rollout Lead)",
+        "Planification des réunions pour le déploiement Salesforce",
+        "Présentation de l’existant pour le déploiement Salesforce",
+        "Mise en œuvre des guidelines globales pour le déploiement Salesforce",
+        "Déploiement final de la solution Salesforce",
+        "Implication de bout en bout sur un projet Salesforce international (depuis le kick-off jusqu'au rollout global et formation)",
+        "Création du backlog initial (sur projet international)",
+        "Rollout global dans plusieurs pays (sur projet international)",
+        "Formation des utilisateurs finaux (sur projet international)"
+      ],
+      "environnement": []
+    },
+    {
+      "entreprise": "TEXEI",
+      "poste": "BUSINESS ANALYSTE SALESFORCE",
+      "periode": "06/[PHONE] - 09/[PHONE]",
+      "lieu": "",
+      "projets": [
+        "PROJET BUILD : INDUSTRIE PHARMACEUTIQUE : EN SCRUM",
+        "ALLURION TECHNOLOGIES"
+      ],
+      "realisations": [
+        "Scoping et organisation de meeting de prise de besoins",
+        "Création de documentation et réalisation de process métier",
+        "App building et configuration de la plateforme Salesforce",
+        "Formation des utilisateurs et création des guides de montée en compétence destinés aux utilisateurs internes"
+      ],
+      "environnement": []
+    },
+    {
+      "entreprise": "IBM (waeg)",
+      "poste": "BUISNESS ANALYSTE SALESFORCE",
+      "periode": "03/[PHONE] - 05/[PHONE]",
+      "lieu": "",
+      "projets": [
+        "PROJET BUILD : EN INTERNE ( CONSEIL ) : EN SCRUM"
+      ],
+      "realisations": [
+        "App building sur salesforce en interne",
+        "Déploiement de fonctionnalités",
+        "Review des fonctionnalités déployées",
+        "Formation de la cellule RH pour l'utilisation des fonctionnalités déployées"
+      ],
+      "environnement": []
+    },
+    {
+      "entreprise": "CAPGEMINI FRANCE",
+      "poste": "BUSINESS ANALYSTE SALESFORCE",
+      "periode": "07/[PHONE] - 02/[PHONE]",
+      "lieu": "",
+      "projets": [
+        {
+          "nom": "PROJET RUN : INDUSTRIE AUTOMOBILE",
+          "client": "STELLANTIS (Ex Peugeot Citroën)",
+          "duree": "3 mois",
+          "methodologie": "SCRUM",
+          "realisations": [
+            "Former et aider les utilisateurs à se perfectionner sur Salesforce",
+            "Suivi des tickets entrants, bugs et test des spécifications fonctionnelles et configuration de la solution",
+            "Création de profils utilisateurs, rapports et tableaux de bord",
+            "Participation aux rituaux Scrum"
+          ]
+        },
+        {
+          "nom": "PROJET BUILD : INDUSTRIE DE L'ENERGIE",
+          "client": "EDF (Electricité de France)",
+          "duree": "1 an et 5 mois",
+          "methodologie": "SAFE",
+          "realisations": [
+            "Grooming et recueil du besoin client et mise à jour des spécifications fonctionnelles",
+            "Procédure de tests fonctionnels (recette), détection de bugs, configuration de la solution",
+            "Participation aux rituaux Agiles (Safe) PI planning, système de démonstration (scrum events)",
+            "Démo client, réponse aux questions, prise de note et proposition",
+            "Réversibilité : formation des nouvelles équipes train en charge de la continuité du projet"
+          ]
+        }
+      ],
+      "realisations": [
+        "Former et aider les utilisateurs à se perfectionner sur Salesforce",
+        "Suivi des tickets entrants, bugs et test des spécifications fonctionnelles et configuration de la solution",
+        "Création de profils utilisateurs, rapports et tableaux de bord",
+        "Participation aux rituaux Scrum",
+        "Grooming et recueil du besoin client et mise à jour des spécifications fonctionnelles",
+        "Procédure de tests fonctionnels (recette), détection de bugs, configuration de la solution",
+        "Participation aux rituaux Agiles (Safe) PI planning, système de démonstration (scrum events)",
+        "Démo client, réponse aux questions, prise de note et proposition",
+        "Réversibilité : formation des nouvelles équipes train en charge de la continuité du projet"
+      ],
+      "environnement": []
+    },
+    {
+      "entreprise": "CANON FRANCE",
+      "poste": "ADMINISTRATEUR SALESFORCE",
+      "periode": "07/[PHONE] - 12/[PHONE]",
+      "lieu": "",
+      "projets": [
+        "PROJET RUN : INDUSTRIE DE L'IMAGERIE ET DE L'IMPRESSION : EN SCRUM"
+      ],
+      "realisations": [
+        "Assistance à la force de vente pour une utilisation optimale de Salesforce",
+        "Traitement des demandes entrantes de leads, comptes, opportunités de reporting et analyse des KPI",
+        "Création de Flows, workflows, et process builder",
+        "Création de vues, de rapports et de tableaux de bord pour les clients internes",
+        "Création, configuration et gestion des profils utilisateurs",
+        "Accompagnement à la formation et à la montée en compétence des nouveaux collaborateurs de la cellule CRM (atelier de formation et Trailhead)"
+      ],
+      "environnement": []
+    },
+    {
+      "entreprise": "CLOUDSWAVE CONSULTING IT",
+      "poste": "CONSULTANT SALESFORCE JUNIOR",
+      "periode": "01/[PHONE] - 06/[PHONE]",
+      "lieu": "",
+      "projets": [
+        "PROJET BUILD : TRANSPORT ET LOGISTIQUE",
+        "MAGHREB SOLUTION LOGISTICS"
+      ],
+      "realisations": [
+        "Rédaction d'expressions de besoins",
+        "Rédaction de notes de cadrage",
+        "Rédaction de cahier des charges",
+        "Participation au déploiement de la solution",
+        "Participation à la configuration de la solution",
+        "Suivi des problèmes et bugs",
+        "Conception de supports de formation",
+        "Administration"
+      ],
+      "environnement": [
+        "SCRUM",
+        "Salesforce"
+      ]
+    }
+  ]
+}
